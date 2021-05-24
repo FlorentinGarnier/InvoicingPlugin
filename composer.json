@@ -1,12 +1,12 @@
 {
-    "name": "sylius/invoicing-plugin",
+    "name": "florentin-garnier/invoicing-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin", "symfony", "e-commerce", "invoicing"],
     "description": "Invoicing plugin for Sylius.",
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "knplabs/knp-snappy-bundle": "^1.5",
+        "qipsius/tcpdf-bundle": "^2.0",
         "ramsey/uuid": "^3.7",
         "sylius/grid-bundle": "^1.7",
         "sylius/resource-bundle": "^1.6",

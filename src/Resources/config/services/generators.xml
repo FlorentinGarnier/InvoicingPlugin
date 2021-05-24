@@ -25,7 +25,7 @@
 
         <service id="sylius_invoicing_plugin.generator.invoice_pdf_file" class="Sylius\InvoicingPlugin\Generator\InvoicePdfFileGenerator">
             <argument type="service" id="templating.engine.twig" />
-            <argument type="service" id="knp_snappy.pdf" />
+            <argument type="service" id="qipsius.tcpdf" />
             <argument type="service" id="file_locator" />
             <argument>@SyliusInvoicingPlugin/Invoice/Download/pdf.html.twig</argument>
             <argument>@SyliusInvoicingPlugin/Resources/assets/sylius-logo.png</argument>

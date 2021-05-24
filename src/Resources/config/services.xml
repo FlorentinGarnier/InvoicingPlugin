@@ -35,5 +35,7 @@
         </service>
 
         <service id="sylius_invoicing_plugin.custom_factory.invoice" class="Sylius\InvoicingPlugin\Factory\InvoiceFactory" />
+
+        <service id="Qipsius\TCPDFBundle\Controller\TCPDFController" alias="qipsius.tcpdf" />
     </services>
 </container>

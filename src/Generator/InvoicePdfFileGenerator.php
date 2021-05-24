@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\InvoicingPlugin\Generator;
 
-use Knp\Snappy\GeneratorInterface;
+use Qipsius\TCPDFBundle\Controller\TCPDFController;
+
 use Sylius\InvoicingPlugin\Entity\InvoiceInterface;
 use Sylius\InvoicingPlugin\Model\InvoicePdf;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -17,8 +18,8 @@ final class InvoicePdfFileGenerator implements InvoicePdfFileGeneratorInterface
     /** @var EngineInterface */
     private $templatingEngine;
 
-    /** @var GeneratorInterface */
-    private $pdfGenerator;
+    /** @var TCPDFController */
+    private $tcpdf;
 
     /** @var FileLocatorInterface */
     private $fileLocator;
@@ -31,13 +32,13 @@ final class InvoicePdfFileGenerator implements InvoicePdfFileGeneratorInterface
 
     public function __construct(
         EngineInterface $templatingEngine,
-        GeneratorInterface $pdfGenerator,
+        TCPDFController $tcpdf,
         FileLocatorInterface $fileLocator,
         string $template,
         string $invoiceLogoPath
     ) {
         $this->templatingEngine = $templatingEngine;
-        $this->pdfGenerator = $pdfGenerator;
+        $this->tcpdf = $tcpdf;
         $this->fileLocator = $fileLocator;
         $this->template = $template;
         $this->invoiceLogoPath = $invoiceLogoPath;
@@ -48,13 +49,15 @@ final class InvoicePdfFileGenerator implements InvoicePdfFileGeneratorInterface
         /** @var string $filename */
         $filename = str_replace('/', '_', $invoice->number()) . self::FILE_EXTENSION;
 
-        $pdf = $this->pdfGenerator->getOutputFromHtml(
-            $this->templatingEngine->render($this->template, [
+        $html = $this->templatingEngine->render($this->template, [
                 'invoice' => $invoice,
                 'channel' => $invoice->channel(),
                 'invoiceLogoPath' => $this->fileLocator->locate($this->invoiceLogoPath),
-            ])
-        );
+            ]);
+
+        $this->tcpdf->AddPage();
+        $this->tcpdf->writeHTML($html, true, false, true, false, '');
+        $pdf = $pdf->Output($filename, 'F');
 
         return new InvoicePdf($filename, $pdf);
     }

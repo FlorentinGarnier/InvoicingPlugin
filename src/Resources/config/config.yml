@@ -7,10 +7,6 @@ sylius_mailer:
             subject: sylius.emails.invoice_generated.subject
             template: "@SyliusInvoicingPlugin/Invoice/Email/invoiceGenerated.html.twig"
 
-knp_snappy:
-    pdf:
-        enabled: true
-
 framework:
     messenger:
         buses:
